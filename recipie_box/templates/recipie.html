@@ -2,12 +2,31 @@
 
 {% block content %}
     <ul>
+        <h3>Recipe Title</h3>
+            <li>{{recipie.title}}</li>
+        <h3>Author:</h3>
+            <li><a href="/author/{{recipie.author.id}}">{{recipie.author.name}}</a></li>
+        <h3>Description:</h3>
+            <li>{{recipie.description}}</li>
+        <h3>Time:</h3>
+            <li>{{recipie.time}}</li>
+        <h3>Instructions:</h3>
+            <li>{{recipie.instructions}}</li>
+       <br>
+       <br>
+       <br>
+       <i class="far fa-heart fa-lg "></i>
 
-        <li>{{recipie.title}}</li>
-        <li><a href="/author/{{recipie.author.id}}">{{recipie.author.name}}</a></li>
-        <li>{{recipie.description}}</li>
-        <li>{{recipie.time}}</li>
-        <li>{{recipie.instructions}}</li>
+            
+            {% if author.is_authenticated %}
+        <button><a href="/edit/{{recipie.id}}">EDIT</a></button>
+        <button><a href="/favorite/{{recipie.id}}">LIKE</a></button>
+        <button><a href="/unfavorite/{{recipie.id}}">UNLIKE</a></button>
+
+            {% endif %}
+            
+            </a>
+        </div>
 
 
     </ul>

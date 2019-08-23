@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from recipie_box.views import index, recipie, author, addauthor, addrecipie, loginpage, logoutpage
+from recipie_box.views import index, recipie, author, addauthor, addrecipie, loginpage, logoutpage, add_favorite, remove_favorite, edit_recipie
 from recipie_box.models import Author, Recipie
 
 
@@ -33,5 +33,8 @@ urlpatterns = [
     path('addauthor/', addauthor),
     path('addrecipie/', addrecipie),
     path('login/', loginpage),
-    path('logout/', logoutpage, name='logout')
+    path('logout/', logoutpage, name='logout'),
+    path("favorite/<int:id>", add_favorite),
+    path("unfavorite/<int:id>", remove_favorite),
+    path("edit/<int:id>", edit_recipie),
 ]

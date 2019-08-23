@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from recipie_box.models import Recipie, Author, RecipieForm
-from recipie_box.forms import AddAuthor, LoginForm
+from recipie_box.forms import AddAuthor, LoginForm, EditForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.core.exceptions import PermissionDenied
@@ -25,11 +25,8 @@ def author(request, id, *args, **kwargs):
     html = 'author.html'
     item = Author.objects.get(id=id)
     items = Recipie.objects.all().filter(author=item)
-    return render(request, html, {'author': item, "recipies": items})
-
-
-# def staff_required(login_url=None):
-#     return user_passes_test(lambda u: u.is_staff, login_url=login_url)
+    favorites = item.favorite.all()
+    return render(request, html, {'recipies': items, "author": item, "favorite": favorites})
 
 
 @login_required
@@ -94,7 +91,46 @@ def loginpage(request, *args, **kwargs):
     return render(request, html, {'form': form})
 
 
+def edit_recipie(request, id): 
+    instance = Recipie.objects.get(id=id)
+    if request.method == 'POST':
+        form = EditForm(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('index'))
+    else:
+        data = {'title': instance.title, 'description': instance.description, 'time': instance.time, 'instructions': instance.instructions}
+        form = EditForm(initial=data)
+    return render(request, 'editrecipie.html', {'form': form, "recipie": instance})
+
+
+def add_favorite(request, id, *args, **kwargs):
+    try:
+        recipie = Recipie.objects.get(id=id)
+        item = Author.objects.get(user=request.user)
+    except add_favorite.DoesNotExist:
+        return HttpResponseRedirect(reverse("index"))
+
+    item.favorite.add(recipie)
+    
+    return HttpResponseRedirect(reverse("index"))
+
+
+def remove_favorite(request, id, *args, **kwargs):
+    try:
+        recipie = Recipie.objects.get(id=id)
+        item = Author.objects.get(user=request.user)
+    except remove_favorite.DoesNotExist:
+        return HttpResponseRedirect(reverse("index"))
+
+    item.favorite.remove(recipie)
+
+    return HttpResponseRedirect(reverse("index"))
+
+
 def logoutpage(request):
     logout(request)
 
     return HttpResponseRedirect(reverse('index'))
+
+

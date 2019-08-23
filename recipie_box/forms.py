@@ -1,5 +1,6 @@
 from django import forms
-from recipie_box.models import Author
+from recipie_box.models import Recipie
+from django.forms import ModelForm
 
 
 class AddAuthor(forms.Form):
@@ -13,3 +14,9 @@ class AddAuthor(forms.Form):
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=30)
     password = forms.CharField(widget=forms.PasswordInput)
+
+
+class EditForm(ModelForm):
+    class Meta:
+        model = Recipie
+        fields = ['title', 'time', 'description', 'instructions']

@@ -7,6 +7,10 @@ class Author(models.Model):
     name = models.CharField(max_length=40)
     bio = models.CharField(max_length=150)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    favorite = models.ManyToManyField('Recipie', related_name="favorite")
+    
+    def __str__(self):
+        return self.name
 
 
 class Recipie(models.Model):
@@ -15,6 +19,7 @@ class Recipie(models.Model):
     description = models.CharField(max_length=150)
     time = models.IntegerField()
     instructions = models.CharField(max_length=500)
+    #favorite = models.ManyToManyField('Recipie', related_name="favorite")
 
 
 class RecipieForm(ModelForm):

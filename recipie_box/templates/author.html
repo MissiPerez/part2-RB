@@ -3,8 +3,17 @@
 {% block content %}
     <ul>
         
-        <li>{{author.name}}</li>
-        <li>{{author.bio}}</li>
+        <h1>{{author.name}}</h1>
+        <br>
+        <p>About:</p>
+        {{author.bio}}
+        <br>
+        <p>Favorite Recipes:</p>
+        {% for fav in favorite %}
+        <p>
+            <a href="/recipies/{{fav.id}}">{{ fav.title}}</a>
+        </p>
+        {% endfor %}
         {% for i in recipies%}
         <li><a href="/recipies/{{i.id}}">{{ i.title}}</a></li>
         {% endfor %}
