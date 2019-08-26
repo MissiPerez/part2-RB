@@ -16,9 +16,11 @@ def index(request, *args, **kwargs):
 
 
 def recipie(request, id, *args, **kwargs):
+    u = request.user
     html = 'recipie.html'
     item = Recipie.objects.get(id=id)
-    return render(request, html, {'recipie': item})
+    return render(request, html, {'recipie': item, 'author': u})
+
 
 
 def author(request, id, *args, **kwargs):

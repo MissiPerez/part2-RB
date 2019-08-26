@@ -15,19 +15,14 @@
        <br>
        <br>
        <br>
-       <i class="far fa-heart fa-lg "></i>
+    </ul>
 
-            
-            {% if author.is_authenticated %}
+
+
+        {% if not author.is_anonymous %}
+        <i class="far fa-heart fa-lg "></i>
         <button><a href="/edit/{{recipie.id}}">EDIT</a></button>
         <button><a href="/favorite/{{recipie.id}}">LIKE</a></button>
         <button><a href="/unfavorite/{{recipie.id}}">UNLIKE</a></button>
-
-            {% endif %}
-            
-            </a>
-        </div>
-
-
-    </ul>
+        {% endif %}
 {% endblock %}
